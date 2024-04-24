@@ -3446,6 +3446,8 @@ void *rrc_nrue(void *notUsed)
     /* this is allocated by itti_malloc in PDCP task (deliver_sdu_srb)
        then passed to the RRC task and freed after use */
     free(NR_RRC_DCCH_DATA_IND(msg_p).sdu_p);
+    MessageDef *msg = itti_alloc_new_message(TASK_PDCP_UE, 0, NR_RRC_DCCH_DATA_RESP);
+    itti_send_msg_to_task(TASK_PDCP_UE, rrc->ue_id, msg);
     break;
 
   case NAS_KENB_REFRESH_REQ:
