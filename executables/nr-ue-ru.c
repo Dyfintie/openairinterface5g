@@ -536,6 +536,7 @@ int nrue_ru_write_reorder(PHY_VARS_NR_UE *UE, openair0_timestamp_t timestamp, vo
                                        txp,
                                        nsamps,
                                        nrue_rus.cfg[UE->rf_map.card].nb_clients,
+                                       UE->Mod_id,
                                        nbAnt,
                                        flags);
 }
