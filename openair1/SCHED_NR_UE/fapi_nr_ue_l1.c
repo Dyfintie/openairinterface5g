@@ -32,7 +32,7 @@ static void configure_dlsch(NR_UE_DLSCH_t *dlsch,
   dlsch->active = true;
   dlsch->rnti = rnti;
 
-  LOG_D(PHY,"Configure DLSCH for pid = %d\n", current_harq_pid);
+  LOG_I(PHY,"Configure DLSCH for pid = %d\n", current_harq_pid);
 
   NR_DL_UE_HARQ_t *dlsch_harq = &harq_list[current_harq_pid];
   dlsch->cw_info = dlsch_config_pdu->cw_info[cw_idx];

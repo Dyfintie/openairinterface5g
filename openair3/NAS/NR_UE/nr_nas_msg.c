@@ -974,12 +974,12 @@ void generateRegistrationRequest(as_nas_info_t *initialNasMsg, nr_ue_nas_t *nas,
     /* Encode both cleartext IEs and non-cleartext IEs Registration Request message in Security Mode Complete.
        The UE includes the full Registration Request in the NAS container IE
        and sends it within the Security Mode Complete message. (24.501 4.4.6, 23.502 4.2.2.2.2) */
-    LOG_D(NAS, "Full Initial NAS Message: Registration Request in the NAS container of Security Mode Complete\n");
+    LOG_I(NAS, "Full Initial NAS Message: Registration Request in the NAS container of Security Mode Complete\n");
     initialNasMsg->nas_data = malloc_or_fail(size_nct * sizeof(*initialNasMsg->nas_data));
     initialNasMsg->length = mm_msg_encode(&full_mm, initialNasMsg->nas_data, size_nct);
   } else if (!has_security_context) {
     /* If no valid 5G NAS security context exists, the UE sends a plain Registration Request including cleartext IEs only. */
-    LOG_D(NAS, "Plain Initial NAS Message: Registration Request\n");
+    LOG_I(NAS, "Plain Initial NAS Message: Registration Request\n");
     initialNasMsg->nas_data = malloc_or_fail(size * sizeof(*initialNasMsg->nas_data));
     initialNasMsg->length = mm_msg_encode(&sp.plain, initialNasMsg->nas_data, size);
   } else {
@@ -987,7 +987,7 @@ void generateRegistrationRequest(as_nas_info_t *initialNasMsg, nr_ue_nas_t *nas,
        (with both cleartext and non-cleartext IEs) in the NAS message container IE. The value of the NAS message container IE is
        then ciphered. The UE sends a 5GMM NAS Registration Request message containing cleartext IEs along with the NAS message
        container IE. */
-    LOG_D(NAS, "Initial NAS Message: Registration Request with ciphered NAS container\n");
+    LOG_I(NAS, "Initial NAS Message: Registration Request with ciphered NAS container\n");
 
     // NAS message container
     if (!cleartext_only) {
@@ -1345,6 +1345,7 @@ int nas_itti_kgnb_refresh_req(instance_t instance, const uint8_t kgnb[32])
 
 static void generateSecurityModeComplete(nr_ue_nas_t *nas, as_nas_info_t *initialNasMsg)
 {
+  LOG_I(NAS, "Generating Security Mode Complete\n");
   int size = sizeof(fgmm_msg_header_t);
   fgmm_nas_msg_security_protected_t nas_msg = {0};
   nas_stream_cipher_t stream_cipher;

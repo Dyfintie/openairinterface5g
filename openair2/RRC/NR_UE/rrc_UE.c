@@ -1130,9 +1130,7 @@ static bool nr_rrc_ue_process_masterCellGroup(NR_UE_RRC_INST_t *rrc,
     handle_rlf_detection(rrc);
     return false;
   }
-  if (LOG_DEBUGFLAG(DEBUG_ASN1)) {
-    xer_fprint(stdout, &asn_DEF_NR_CellGroupConfig, (const void *) cellGroupConfig);
-  }
+  xer_fprint(stdout, &asn_DEF_NR_CellGroupConfig, (const void *) cellGroupConfig);
 
   bool ret = nr_rrc_cellgroup_configuration(rrc, cellGroupConfig, gNB_index, false);
   if (!ret)
@@ -2857,7 +2855,7 @@ static int nr_rrc_ue_decode_dcch(NR_UE_RRC_INST_t *rrc,
     RRCLOG_E("Received message on DL-DCCH (SRB%ld), should not have ...\n", Srb_id);
   }
 
-  RRCLOG_D("Decoding DL-DCCH Message\n");
+  LOG_A(NR_RRC, "Decoding DL-DCCH Message of size %lu\n", Buffer_size);
   asn_dec_rval_t dec_rval = uper_decode(NULL, &asn_DEF_NR_DL_DCCH_Message, (void **)&dl_dcch_msg, Buffer, Buffer_size, 0, 0);
 
   if ((dec_rval.code != RC_OK) && (dec_rval.consumed == 0)) {
@@ -2866,7 +2864,7 @@ static int nr_rrc_ue_decode_dcch(NR_UE_RRC_INST_t *rrc,
     return -1;
   }
 
-  if (LOG_DEBUGFLAG(DEBUG_ASN1)) {
+  if (true) {
     xer_fprint(stdout, &asn_DEF_NR_DL_DCCH_Message, (void *)dl_dcch_msg);
   }
 
@@ -2960,6 +2958,7 @@ static int nr_rrc_ue_decode_dcch(NR_UE_RRC_INST_t *rrc,
         case NR_DL_DCCH_MessageType__c1_PR_spare2:
         case NR_DL_DCCH_MessageType__c1_PR_spare1:
         case NR_DL_DCCH_MessageType__c1_PR_counterCheck:
+	  LOG_W(NR_RRC, "unhandled DL-DCCH message %d\n", dl_dcch_msg->message.present);
           break;
         case NR_DL_DCCH_MessageType__c1_PR_securityModeCommand:
           RRCLOG_I("Received securityModeCommand (gNB %d)\n", gNB_indexP);
@@ -2968,6 +2967,7 @@ static int nr_rrc_ue_decode_dcch(NR_UE_RRC_INST_t *rrc,
       }
     } break;
     default:
+  LOG_W(NR_RRC, "empty DL-DCCH message %d\n", dl_dcch_msg->message.present);
       break;
   }
   //  release memory allocation
@@ -3471,6 +3471,7 @@ void *rrc_nrue(void *notUsed)
       free(req->nasMsg.nas_data);
       break;
     }
+    LOG_I(NR_RRC, "Sednding UL information transfer NAS\n");
     nr_rrc_ue_send_ul_information_transfer_nas(rrc, req->nasMsg.length, req->nasMsg.nas_data);
     free(req->nasMsg.nas_data);
     break;

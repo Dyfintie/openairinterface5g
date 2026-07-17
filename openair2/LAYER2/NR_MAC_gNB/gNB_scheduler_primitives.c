@@ -4067,6 +4067,7 @@ void send_initial_ul_rrc_message(int rnti, const uint8_t *sdu, sdu_size_t sdu_le
   int encoded_len = 0;
   if (UE->CellGroup)
     encoded_len = encode_cellGroupConfig(UE->CellGroup, du2cu, sizeof(du2cu));
+  xer_fprint(stdout, &asn_DEF_NR_CellGroupConfig, UE->CellGroup);
 
   DevAssert(mac->f1_config.setup_req != NULL);
   AssertFatal(mac->f1_config.setup_req->num_cells_available == 1, "can handle only one cell\n");
