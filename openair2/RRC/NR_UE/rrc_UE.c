@@ -469,8 +469,7 @@ static void get_sib19_schedinfo(NR_UE_RRC_SI_INFO *SI_info, NR_SI_SchedulingInfo
 
 static void nr_rrc_process_sib1(NR_UE_RRC_INST_t *rrc, NR_UE_RRC_SI_INFO *SI_info, NR_SIB1_t *sib1)
 {
-  if(g_log->log_component[NR_RRC].level >= OAILOG_DEBUG)
-    xer_fprint(stdout, &asn_DEF_NR_SIB1, (const void *) sib1);
+  xer_fprint(stdout, &asn_DEF_NR_SIB1, (const void *) sib1);
   RRCLOG_A("SIB1 decoded\n");
 
   plmn_id_t *plmn_id = malloc_or_fail(sizeof(plmn_id_t));
@@ -1699,6 +1698,8 @@ static void nr_rrc_ue_process_rrcReconfiguration(NR_UE_RRC_INST_t *rrc, int gNB_
 {
   rrcPerNB_t *rrcNB = rrc->perNB + gNB_index;
 
+  xer_fprint(stdout, &asn_DEF_NR_RRCReconfiguration, reconfiguration);
+
   switch (reconfiguration->criticalExtensions.present) {
     case NR_RRCReconfiguration__criticalExtensions_PR_rrcReconfiguration: {
       NR_RRCReconfiguration_IEs_t *ie = reconfiguration->criticalExtensions.choice.rrcReconfiguration;
@@ -2389,6 +2390,7 @@ static void nr_rrc_rrcsetup_fallback(NR_UE_RRC_INST_t *rrc)
 
 static void nr_rrc_process_rrcsetup(NR_UE_RRC_INST_t *rrc, const NR_RRCSetup_t *rrcSetup)
 {
+  xer_fprint(stdout, &asn_DEF_NR_RRCSetup, rrcSetup);
   // if the RRCSetup is received in response to an RRCReestablishmentRequest
   // or RRCResumeRequest or RRCResumeRequest1
   if (rrc->ra_trigger == RRC_CONNECTION_REESTABLISHMENT || rrc->ra_trigger == RRC_RESUME_REQUEST)
@@ -2797,7 +2799,7 @@ static void nr_rrc_ue_process_ueCapabilityEnquiry(NR_UE_RRC_INST_t *rrc, NR_UECa
     asn1cSequenceAdd(rrc->UECap.UE_NR_Capability->rf_Parameters.supportedBandListNR.list, NR_BandNR_t, nr_bandnr);
     nr_bandnr->bandNR = 1;
   }
-  xer_fprint(stdout, &asn_DEF_NR_UE_NR_Capability, (void *)rrc->UECap.UE_NR_Capability);
+  //xer_fprint(stdout, &asn_DEF_NR_UE_NR_Capability, (void *)rrc->UECap.UE_NR_Capability);
 
   asn_enc_rval_t enc_rval = uper_encode_to_buffer(&asn_DEF_NR_UE_NR_Capability,
                                                   NULL,
