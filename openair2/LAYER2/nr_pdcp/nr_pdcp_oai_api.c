@@ -262,9 +262,10 @@ static void do_pdcp_data_ind(const protocol_ctxt_t *const ctxt_pP,
   nr_pdcp_manager_unlock(nr_pdcp_ue_manager);
 
   /* UE: wait for RRC to indicate the processing of the message */
-  if (ctxt_pP->enb_flag == 0 && srb_flagP && ret == 0) {
+  if (srb_flagP && ret == 0) {
     MessageDef *Resp;
-    itti_receive_msg(TASK_PDCP_UE, &Resp);
+    task_id_t task_id = ctxt_pP->enb_flag == 0 ? TASK_PDCP_UE : TASK_PDCP_GNB;
+    itti_receive_msg(task_id, &Resp);
     AssertFatal(ITTI_MSG_ID(Resp) == NR_RRC_DCCH_DATA_RESP, "bad response from NR RRC\n");
     itti_free(ITTI_MSG_ORIGIN_ID(Resp), Resp);
   }

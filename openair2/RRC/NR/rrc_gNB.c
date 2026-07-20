@@ -2448,6 +2448,8 @@ static int rrc_gNB_decode_dcch(gNB_RRC_INST *rrc, const f1ap_ul_rrc_message_t *m
     }
   }
   ASN_STRUCT_FREE(asn_DEF_NR_UL_DCCH_Message, ul_dcch_msg);
+  MessageDef *itti = itti_alloc_new_message(TASK_PDCP_GNB, 0, NR_RRC_DCCH_DATA_RESP);
+  itti_send_msg_to_task(TASK_PDCP_GNB, 0, itti);
   return 0;
 }
 
