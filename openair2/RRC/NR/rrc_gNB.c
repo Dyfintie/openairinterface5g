@@ -2385,7 +2385,7 @@ static int rrc_gNB_decode_dcch(gNB_RRC_INST *rrc, const f1ap_ul_rrc_message_t *m
 
         /* trigger UE capability enquiry if we don't have them yet */
         if (UE->ue_cap_buffer.len == 0) {
-          rrc_gNB_generate_UECapabilityEnquiry(rrc, UE);
+          //rrc_gNB_generate_UECapabilityEnquiry(rrc, UE);
           /* else blocks are executed after receiving UE capability info */
         } else if (UE->n_initial_pdu > 0) {
           /* there were PDU sessions with the NG UE Context setup, but we had
@@ -4121,6 +4121,13 @@ void rrc_gNB_generate_SecurityModeCommand(gNB_RRC_INST *rrc, gNB_RRC_UE_t *ue_p)
 
   const uint32_t msg_id = NR_DL_DCCH_MessageType__c1_PR_securityModeCommand;
   nr_rrc_transfer_protected_rrc_message(rrc, ue_p, DL_SCH_LCID_DCCH, msg_id, buffer, size);
+
+  // this is what commercial stuff does: send security mode command + UE cap
+  // enq together, where the second is encrypted
+  nr_rrc_pdcp_config_security(ue_p, true);
+  rrc_gNB_generate_UECapabilityEnquiry(rrc, ue_p);
+  nr_rrc_pdcp_config_security(ue_p, false); // disable ciphering for reception
+                                            // of security mode command
 }
 
 //-----------------------------------------------------------------------------
