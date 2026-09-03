@@ -664,7 +664,7 @@ int main(int argc, char **argv)
       }
 
       // noise measurement (all PRBs)
-      gNB_I0_measurements(gNB, nr_slot_tx, 0, gNB->frame_parms.symbols_per_slot, rb_mask_ul);
+      gNB_I0_measurements(gNB, nr_frame_tx, nr_slot_tx, 0, gNB->frame_parms.symbols_per_slot, rb_mask_ul);
 
       if (n_trials == 1)
         printf("noise rxlev %d (%d dB), rxlev pucch %d dB sigma2 %f dB, SNR %f, TX %f, I0 (pucch) %d, I0 (avg) %d\n",
