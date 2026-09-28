@@ -532,6 +532,7 @@ static void map_uci_common(struct map_uci_common_arg p)
 
   uint32_t total_placed = 0;
   for (uint8_t sym = p.l1_c; sym < p.n_symbols && total_placed < p.G_uci; sym++) {
+    const uint32_t re_on_sym_total = p.m_ulsch_initial[sym];
     uint32_t uci_re_on_sym = p.m_uci_current[sym];
     if (p.uci_type_to_map == BIT_TYPE_CSI1 && p.resv_ack_count_symb) // need to remove reserved res
       uci_re_on_sym -= p.resv_ack_count_symb[sym] / p.nlqm;
@@ -544,7 +545,7 @@ static void map_uci_common(struct map_uci_common_arg p)
     uint32_t d_factor_re = get_d_factor_re(num_re_to_select, uci_re_on_sym);
     uint32_t re_offset = 0;
     uint32_t *cur_sym_resv_ack_pos = p.resv_ack_pos_symb[sym];
-    while (re_offset < uci_re_on_sym && total_placed < p.G_uci) {
+    while (re_offset < re_on_sym_total && total_placed < p.G_uci) {
       uci_on_pusch_bit_type_t cur_template = p.template[symbol_start_bit_idx[sym] + (re_offset * p.nlqm)];
       if (skip_mapping_current_uci(cur_template, p.uci_type_to_map)) {
         re_offset++;
@@ -567,7 +568,7 @@ static void map_uci_common(struct map_uci_common_arg p)
       if (p.uci_type_to_map == BIT_TYPE_CSI1 || p.uci_type_to_map == BIT_TYPE_CSI2) {
         uint32_t prev_re_offset = re_offset;
         re_offset += d_factor_re;
-        for (uint32_t re = prev_re_offset + 1; re <= re_offset && re < uci_re_on_sym; re++) {
+        for (uint32_t re = prev_re_offset + 1; re <= re_offset && re < re_on_sym_total; re++) {
           uci_on_pusch_bit_type_t t = p.template[symbol_start_bit_idx[sym] + (re * p.nlqm)];
           if (skip_mapping_current_uci(t, p.uci_type_to_map))
             re_offset++;
