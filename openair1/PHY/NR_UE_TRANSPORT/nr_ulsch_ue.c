@@ -932,10 +932,11 @@ void nr_ue_ulsch_procedures(PHY_VARS_NR_UE *UE,
 
     nr_uci_encoding(pusch_pdu->pusch_uci.harq_payload,
                     pusch_pdu->pusch_uci.harq_ack_bit_length,
-                    pucch_pdu->prb_size,
+                    rm_info.E_uci_ACK,
                     rm_info.E_uci_ACK,
                     mod_order,
-                    &b_ack[0]);
+                    &b_ack[0],
+                    true);
 
     LOG_D(PHY,
           "[UCI_ON_PUSCH] G_ulsch=%u (updated G[pusch_id]), G_ack=%u (M_bit), total_len=%u "
@@ -950,19 +951,21 @@ void nr_ue_ulsch_procedures(PHY_VARS_NR_UE *UE,
   if (pusch_pdu->pusch_uci.csi_payload.p1_bits != 0) {
     nr_uci_encoding(pusch_pdu->pusch_uci.csi_payload.part1_payload,
                     pusch_pdu->pusch_uci.csi_payload.p1_bits,
-                    pucch_pdu->prb_size,
+                    rm_info.E_uci_CSI1,
                     rm_info.E_uci_CSI1,
                     mod_order,
-                    &b_csi1[0]);
+                    &b_csi1[0],
+                    true);
 
     // Process CSI Part 2 if any
     if (pusch_pdu->pusch_uci.csi_payload.p2_bits > 0)
       nr_uci_encoding(pusch_pdu->pusch_uci.csi_payload.part2_payload,
                       pusch_pdu->pusch_uci.csi_payload.p2_bits,
-                      pucch_pdu->prb_size,
+                      rm_info.E_uci_CSI2,
                       rm_info.E_uci_CSI2,
                       mod_order,
-                      &b_csi2[0]);
+                      &b_csi2[0],
+                      true);
   }
 
 
