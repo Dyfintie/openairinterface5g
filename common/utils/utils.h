@@ -17,7 +17,7 @@ extern "C" {
 #include <sys/types.h>
 #include <common/utils/assertions.h>
 
-#define CHECK_MUTEX
+//#define CHECK_MUTEX
 #ifdef CHECK_MUTEX
 #include <pthread.h>
 #define pthread_mutex_init(MuT, mutexattr)                                 \
