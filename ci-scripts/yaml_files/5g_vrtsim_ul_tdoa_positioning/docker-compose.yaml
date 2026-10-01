@@ -120,7 +120,7 @@ services:
 
     oai-lmf:
         container_name: "oai-lmf"
-        image: oaisoftwarealliance/oai-lmf:develop
+        image: oaisoftwarealliance/oai-lmf:v2.2.2
         expose:
             - 80/tcp
             - 8080/tcp
