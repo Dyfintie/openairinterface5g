@@ -503,7 +503,6 @@ static void search_new_neighboring_cell(UE_nr_rxtx_proc_t *proc, PHY_VARS_NR_UE 
 
 static void do_neighboring_cell_measurements(UE_nr_rxtx_proc_t *proc, PHY_VARS_NR_UE *ue, c16_t **rxdata)
 {
-  return; // Ericsson gNB: crashes below here, don't search for neighbors
   // Generate PSS time-domain sequences once for all neighbor cells
   NR_DL_FRAME_PARMS *frame_parms = &ue->frame_parms;
   __attribute__((aligned(32))) c16_t pssTime[NUMBER_PSS_SEQUENCE][frame_parms->ofdm_symbol_size];
