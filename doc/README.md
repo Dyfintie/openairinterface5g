@@ -29,59 +29,70 @@ More general information is available in the
 
 ## Tutorials
 
-- Step-by-step tutorials to set up 5G:
-    * [OAI 5G core network](./NR_SA_Tutorial_OAI_CN5G.md)
-    * [OAI gNB with a COTS UE](./NR_SA_Tutorial_COTS_UE.md)
-    * [OAI NR-UE](./NR_SA_Tutorial_OAI_nrUE.md)
-    * [Multiple OAI NR-UEs with the RFsimulator](./NR_SA_Tutorial_OAI_multi_UE.md)
-- [Running the gNB](./RUNMODEM.md)
-    * Run simulators
-    * Run with hardware
-    * (5G) Using SDAP and custom DRBs
-    * IF setups and arbitrary frequencies
-    * MIMO
-- [NR-UE configuration and modes](./runmodem-nrue.md)
-    * Specific OAI modes (phy-test, do-ra, noS1)
-- [O-RAN 7.2 fronthaul](./ORAN_FHI7.2_Tutorial.md)
-- [5G NSA setup](./TESTING_OAI_NSA_COTS_UE.md)
-- [4G L1 simulator](./L1SIM.md): we recommend the RFsimulator instead
-- [L2 simulator](./L2NFAPI.md)
-- [Channel simulator](../openair1/SIMULATION/TOOLS/DOC/channel_simulation.md)
-- [NTN setup](./ntn-configuration.md)
-- [GPU-accelerated channel simulation](../openair1/SIMULATION/TOOLS/DOC/gpu_acceleration.md)
-- [OAI-VNF and OAI-PNF](./nfapi.md): FAPI/nFAPI split, with general remarks on FAPI/nFAPI
-- [Positioning reference signal (PRS)](./RUN_NR_PRS.md)
-- [4G device-to-device (D2D) emulator](./d2d_emulator_setup.md)
-- [E2 agent](../openair2/E2AP/README.md)
-- [Physical simulators](./physical-simulators.md)
-- [NVIDIA Aerial and Foxconn](./Aerial_FAPI_Split_Tutorial.md)
-- [LDPC accelerators (Xilinx T2, Intel ACCs)](./LDPC_OFFLOAD_SETUP.md)
-- [NR-UE with the LDPC CUDA accelerator](./NR_SA_Tutorial_OAI_nrUE_GPU_offload.md)
-- [Handover](./handover-tutorial.md)
+### Getting started with 5G
+
+- [OAI 5G core network](./NR_SA_Tutorial_OAI_CN5G.md)
+- [OAI gNB with a COTS UE](./NR_SA_Tutorial_COTS_UE.md)
+- [OAI NR-UE](./NR_SA_Tutorial_OAI_nrUE.md)
+- [Multiple OAI NR-UEs with the RFsimulator](./NR_SA_Tutorial_OAI_multi_UE.md)
+
+### Running OAI
+
+- [Running the gNB](./RUNMODEM.md): simulators, hardware, SDAP and custom DRBs,
+  IF setups and arbitrary frequencies, MIMO
+- [NR-UE configuration and modes](./runmodem-nrue.md): phy-test, do-ra, noS1
 - [Setting the gNB frequency](./gNB_frequency_setup.md)
+- [5G NSA setup](./TESTING_OAI_NSA_COTS_UE.md)
+- [NTN setup](./ntn-configuration.md)
+- [Handover](./handover-tutorial.md)
+- [F1-based NR-DC](./nr-dc.md)
+- [Positioning reference signal (PRS)](./RUN_NR_PRS.md)
+- [E2 agent](../openair2/E2AP/README.md)
 - [RT data recording app](./data_recording.md)
 - [Packages](./packages.md)
-- [F1-based NR-DC](./nr-dc.md)
 
-Legacy unmaintained files:
-- [L2 simulator without S1](./L2NFAPI_NOS1.md), [L2 simulator with S1](./L2NFAPI_S1.md):
-  old L2 simulator, no longer valid
+### Functional splits
+
+- [O-RAN 7.2 fronthaul](./ORAN_FHI7.2_Tutorial.md)
+- [OAI-VNF and OAI-PNF](./nfapi.md): FAPI/nFAPI split, with general remarks on FAPI/nFAPI
+- [NVIDIA Aerial and Foxconn](./Aerial_FAPI_Split_Tutorial.md)
+
+### Hardware acceleration
+
+- [LDPC accelerators (Xilinx T2, Intel ACCs)](./LDPC_OFFLOAD_SETUP.md)
+- [NR-UE with the LDPC CUDA accelerator](./NR_SA_Tutorial_OAI_nrUE_GPU_offload.md)
+- [GPU-accelerated channel simulation](../openair1/SIMULATION/TOOLS/DOC/gpu_acceleration.md)
+
+### Simulators
+
+- [Physical simulators](./physical-simulators.md)
+- [Channel simulator](../openair1/SIMULATION/TOOLS/DOC/channel_simulation.md)
+- [L2 simulator](./L2NFAPI.md)
+- [4G L1 simulator](./L1SIM.md): we recommend the RFsimulator instead
+- [4G device-to-device (D2D) emulator](./d2d_emulator_setup.md)
+
+### Legacy
+
+These documents are unmaintained and no longer valid:
+
+- [L2 simulator without S1](./L2NFAPI_NOS1.md)
+- [L2 simulator with S1](./L2NFAPI_S1.md)
 
 ## Designs
 
 - [Software architecture](./SW_archi.md): general notes
-- [E1 design](./E1AP/E1-design.md)
-- [F1 design](./F1AP/F1-design.md)
-- [GTP-U design](./GTP/gtp-design.md)
-- [NR nFAPI](./NR_NFAPI_archi.md): how NR nFAPI works
 - [L1 flow graph in the gNB](./SW-archi-graph.md)
 - [L1 threads in the NR-UE](./nr-ue-design.md)
 - [gNB MAC](./MAC/mac-usage.md)
 - [gNB RRC](./RRC/rrc-usage.md)
-- [Analog beamforming](./analog_beamforming.md)
-- [UE 5G NAS](./5Gnas.md)
-- [UL MIMO](./UL_MIMO.md)
+- [E1 design](./E1AP/E1-design.md)
+- [F1 design](./F1AP/F1-design.md)
+- [GTP-U design](./GTP/gtp-design.md)
+- [NR nFAPI](./NR_NFAPI_archi.md): how NR nFAPI works
 - [NRPPa call flow](./NRPPA/NRPPA-call-flow.md)
+- [UE 5G NAS](./5Gnas.md)
+- [Analog beamforming](./analog_beamforming.md)
+- [UL MIMO](./UL_MIMO.md)
 
 ## Building and running from images
 
@@ -106,18 +117,18 @@ Legacy unmaintained files:
 
 ### Radios
 
-Some directories under `radio` contain READMEs:
+Radio drivers under `radio/` with their own documentation. The other SDRs
+(AW2S, LimeSDR, ...) have none.
 
 - [RFsimulator](../radio/rfsimulator/README.md)
 - [USRP](../radio/USRP/README.md)
 - [BladeRF](../radio/BLADERF/README.md)
-- [I/Q player](../radio/iqplayer/DOC/iqrecordplayer_usage.md), and [I/Q record and replay](./iqrecordplayer_usage.md)
+- [I/Q player](../radio/iqplayer/DOC/iqrecordplayer_usage.md): driver usage
+- [I/Q record and replay](./iqrecordplayer_usage.md): general documentation
 - [O-RAN 7.2 fronthaul driver (fhi_72)](../radio/fhi_72/README.md)
 - [vrtsim](../radio/vrtsim/README.md): shared memory radio interface
 - [RF emulator](../radio/emulator/README.md)
 - [ZeroMQ (zmq)](../radio/zmq/README.md)
-
-The other SDRs (AW2S, LimeSDR, ...) have no READMEs.
 
 ### Special-purpose libraries
 
