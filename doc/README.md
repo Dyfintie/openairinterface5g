@@ -19,90 +19,90 @@ More general information is available in the
 
 ## General
 
-- [FEATURE_SET.md](./FEATURE_SET.md): lists supported features
-- [GET_SOURCES.md](./GET_SOURCES.md): how to download the sources
-- [BUILD.md](./BUILD.md): how to build the sources
-- [environment-variables.md](./environment-variables.md): the environment variables used by OAI
-- [tuning_and_security.md](./tuning_and_security.md): performance and security considerations
-- [Supported_Hardware_Operating_System.md](./Supported_Hardware_Operating_System.md): List of supported hardware and operating system for OAI
-- [kpi.md](./kpi.md): Key Performance Indicators for the OpenAirInterface Code Base
+- [Feature set](./FEATURE_SET.md): supported features
+- [Getting the sources](./GET_SOURCES.md): how to download the sources
+- [Building OAI](./BUILD.md): how to build the sources
+- [Environment variables](./environment-variables.md): environment variables used by OAI
+- [Tuning and security](./tuning_and_security.md): performance and security considerations
+- [Supported hardware and operating systems](./Supported_Hardware_Operating_System.md)
+- [Key performance indicators](./kpi.md): KPIs of the OAI code base
 
 ## Tutorials
 
 - Step-by-step tutorials to set up 5G:
-    * [OAI 5GC](./NR_SA_Tutorial_OAI_CN5G.md)
-    * [OAI gNB with COTS UE](./NR_SA_Tutorial_COTS_UE.md)
+    * [OAI 5G core network](./NR_SA_Tutorial_OAI_CN5G.md)
+    * [OAI gNB with a COTS UE](./NR_SA_Tutorial_COTS_UE.md)
     * [OAI NR-UE](./NR_SA_Tutorial_OAI_nrUE.md)
-    * [Multiple OAI NR-UE with RFsimulator](./NR_SA_Tutorial_OAI_multi_UE.md)
-- [RUNMODEM.md](./RUNMODEM.md): Information on how to run the gNB
+    * [Multiple OAI NR-UEs with the RFsimulator](./NR_SA_Tutorial_OAI_multi_UE.md)
+- [Running the gNB](./RUNMODEM.md)
     * Run simulators
     * Run with hardware
     * (5G) Using SDAP and custom DRBs
     * IF setups and arbitrary frequencies
     * MIMO
-- [nrUE-specific configuration and modes](./runmodem-nrue.md)
+- [NR-UE configuration and modes](./runmodem-nrue.md)
     * Specific OAI modes (phy-test, do-ra, noS1)
-- [How to run OAI with O-RAN 7.2 FHI](./ORAN_FHI7.2_Tutorial.md)
-- [How to run a 5G-NSA setup](./TESTING_OAI_NSA_COTS_UE.md)
-- [How to run a 4G setup using L1 simulator](./L1SIM.md) _Note: we recommend the RFsimulator_
-- [How to use the L2 simulator](./L2NFAPI.md)
-- [How to use the OAI channel simulator](../openair1/SIMULATION/TOOLS/DOC/channel_simulation.md)
-- [How to run an NTN setup](./ntn-configuration.md)
-- [How to use GPU-accelerated channel simulation](../openair1/SIMULATION/TOOLS/DOC/gpu_acceleration.md)
-- [How to run OAI-VNF and OAI-PNF](./nfapi.md): how to run the FAPI/nFAPI split,
-  including some general remarks on FAPI/nFAPI.
-- [How to use the positioning reference signal (PRS)](./RUN_NR_PRS.md)
-- [How to use device-to-device communication (D2D, 4G)](./d2d_emulator_setup.md)
-- [How to run with E2 agent](../openair2/E2AP/README.md)
-- [How to run the physical simulators](./physical-simulators.md)
-- [How to setup OAI with Nvidia Aerial and Foxconn](./Aerial_FAPI_Split_Tutorial.md)
-- [How to setup OAI with LDPC accelerators (Xilinx T2/Intel ACCs)](./LDPC_OFFLOAD_SETUP.md)
-- [How to run the UE with LDPC CUDA accelerator](./NR_SA_Tutorial_OAI_nrUE_GPU_offload.md)
-- [How to do a handover](./handover-tutorial.md)
-- [How to setup gNB frequency](./gNB_frequency_setup.md)
-- [How to use the RT data recording app](./data_recording.md)
-- [How to use packages](./packages.md)
-- [How to test F1-based NR-DC](./nr-dc.md)
+- [O-RAN 7.2 fronthaul](./ORAN_FHI7.2_Tutorial.md)
+- [5G NSA setup](./TESTING_OAI_NSA_COTS_UE.md)
+- [4G L1 simulator](./L1SIM.md): we recommend the RFsimulator instead
+- [L2 simulator](./L2NFAPI.md)
+- [Channel simulator](../openair1/SIMULATION/TOOLS/DOC/channel_simulation.md)
+- [NTN setup](./ntn-configuration.md)
+- [GPU-accelerated channel simulation](../openair1/SIMULATION/TOOLS/DOC/gpu_acceleration.md)
+- [OAI-VNF and OAI-PNF](./nfapi.md): FAPI/nFAPI split, with general remarks on FAPI/nFAPI
+- [Positioning reference signal (PRS)](./RUN_NR_PRS.md)
+- [4G device-to-device (D2D) emulator](./d2d_emulator_setup.md)
+- [E2 agent](../openair2/E2AP/README.md)
+- [Physical simulators](./physical-simulators.md)
+- [NVIDIA Aerial and Foxconn](./Aerial_FAPI_Split_Tutorial.md)
+- [LDPC accelerators (Xilinx T2, Intel ACCs)](./LDPC_OFFLOAD_SETUP.md)
+- [NR-UE with the LDPC CUDA accelerator](./NR_SA_Tutorial_OAI_nrUE_GPU_offload.md)
+- [Handover](./handover-tutorial.md)
+- [Setting the gNB frequency](./gNB_frequency_setup.md)
+- [RT data recording app](./data_recording.md)
+- [Packages](./packages.md)
+- [F1-based NR-DC](./nr-dc.md)
 
 Legacy unmaintained files:
-- [`L2NFAPI_NOS1.md`](./L2NFAPI_NOS1.md), [`L2NFAPI_S1.md`](./L2NFAPI_S1.md):
-  old L2simulator, not valid anymore
+- [L2 simulator without S1](./L2NFAPI_NOS1.md), [L2 simulator with S1](./L2NFAPI_S1.md):
+  old L2 simulator, no longer valid
 
 ## Designs
 
-- General software architecture notes: [SW_archi.md](./SW_archi.md)
-- [Information on E1](./E1AP/E1-design.md)
-- [Information on F1](./F1AP/F1-design.md)
-- [Information on GTP-U](./GTP/gtp-design.md)
-- [Information on how NR nFAPI works](./NR_NFAPI_archi.md)
-- [Flow graph of the L1 in gNB](SW-archi-graph.md)
-- [L1 threads in NR-UE](./nr-ue-design.md)
-- [Information on gNB MAC](./MAC/mac-usage.md)
-- [Information on gNB RRC](./RRC/rrc-usage.md)
-- [Information on analog beamforming implementation](./analog_beamforming.md)
-- [Information on the UE 5G NAS implementation](./5Gnas.md)
-- [Information on UL-MIMO](./UL_MIMO.md): UL-MIMO specific notes
-- [Information on NRPPA](./NRPPA/NRPPA-call-flow.md)
+- [Software architecture](./SW_archi.md): general notes
+- [E1 design](./E1AP/E1-design.md)
+- [F1 design](./F1AP/F1-design.md)
+- [GTP-U design](./GTP/gtp-design.md)
+- [NR nFAPI](./NR_NFAPI_archi.md): how NR nFAPI works
+- [L1 flow graph in the gNB](./SW-archi-graph.md)
+- [L1 threads in the NR-UE](./nr-ue-design.md)
+- [gNB MAC](./MAC/mac-usage.md)
+- [gNB RRC](./RRC/rrc-usage.md)
+- [Analog beamforming](./analog_beamforming.md)
+- [UE 5G NAS](./5Gnas.md)
+- [UL MIMO](./UL_MIMO.md)
+- [NRPPa call flow](./NRPPA/NRPPA-call-flow.md)
 
 ## Building and running from images
 
-- [How to build images](../docker/README.md)
-- [How to run 5G with the RFsimulator from images](../ci-scripts/yaml_files/5g_rfsimulator/README.md)
-- [How to run 4G with the RFsimulator from images](../ci-scripts/yaml_files/4g_rfsimulator_fdd_05MHz/README.md)
-- [How to run physical simulators in OpenShift](../openshift/README.md)
+- [Building images](../docker/README.md)
+- [5G with the RFsimulator](../ci-scripts/yaml_files/5g_rfsimulator/README.md)
+- [4G with the RFsimulator](../ci-scripts/yaml_files/4g_rfsimulator_fdd_05MHz/README.md)
+- [Physical simulators in OpenShift](../openshift/README.md)
 
 ## Libraries
 
 ### General
 
-- The [T tracer](../common/utils/T/DOC/T.md): a generic tracing tool (VCD, Wireshark, GUI, to save for later, ...)
-- [OPT](../openair2/UTIL/OPT/README.txt): how to trace to wireshark
-- The [configuration module](../common/config/DOC/config.md)
-- The [logging module](../common/utils/LOG/DOC/log.md)
-- The [shared object loader](../common/utils/DOC/loader.md)
-- The [threadpool](../common/utils/threadPool/thread-pool.md) used in L1
-- The [LDPC implementation](../openair1/PHY/CODING/DOC/LDPCImplementation.md) is a shared library
-- The [time management](time_management.md) module
+- [T tracer](../common/utils/T/DOC/T.md): generic tracing tool (VCD, Wireshark,
+  GUI, recording for later analysis)
+- [OPT](../openair2/UTIL/OPT/README.txt): tracing to Wireshark
+- [Configuration module](../common/config/DOC/config.md)
+- [Logging module](../common/utils/LOG/DOC/log.md)
+- [Shared object loader](../common/utils/DOC/loader.md)
+- [Thread pool](../common/utils/threadPool/thread-pool.md): used in L1
+- [LDPC implementation](../openair1/PHY/CODING/DOC/LDPCImplementation.md): built as a shared library
+- [Time management](./time_management.md)
 
 ### Radios
 
@@ -111,44 +111,41 @@ Some directories under `radio` contain READMEs:
 - [RFsimulator](../radio/rfsimulator/README.md)
 - [USRP](../radio/USRP/README.md)
 - [BladeRF](../radio/BLADERF/README.md)
-- [IQPlayer](../radio/iqplayer/DOC/iqrecordplayer_usage.md), and [general documentation](./iqrecordplayer_usage.md)
-- [fhi_72](../radio/fhi_72/README.md)
-- [vrtsim](../radio/vrtsim/README.md)
-- [rf_emulator](../radio/emulator/README.md)
-- [zmq](../radio/zmq/README.md)
+- [I/Q player](../radio/iqplayer/DOC/iqrecordplayer_usage.md), and [I/Q record and replay](./iqrecordplayer_usage.md)
+- [O-RAN 7.2 fronthaul driver (fhi_72)](../radio/fhi_72/README.md)
+- [vrtsim](../radio/vrtsim/README.md): shared memory radio interface
+- [RF emulator](../radio/emulator/README.md)
+- [ZeroMQ (zmq)](../radio/zmq/README.md)
 
 The other SDRs (AW2S, LimeSDR, ...) have no READMEs.
 
 ### Special-purpose libraries
 
-- OAI has two scopes: one based on Xforms and one based on imgui, described in [this README](../openair1/PHY/TOOLS/readme.md)
-- OAI comes with an integrated [telnet server](../common/utils/telnetsrv/DOC/telnethelp.md) to monitor and control
-- OAI comes with an integrated [web server](../common/utils/websrv/DOC/websrv.md)
+- [Scopes](../openair1/PHY/TOOLS/readme.md): xForms and imgui based scopes
+- [Telnet server](../common/utils/telnetsrv/DOC/telnethelp.md): monitoring and control
+- [Web server](../common/utils/websrv/DOC/websrv.md)
 
 ## Testing
 
-- [UnitTests.md](./UnitTests.md) explains the unit testing setup
-- Component tests are under `tests/`. Currently, the following component tests are supported
-  - A simple CU-UP tester, see the corresponding [README.md](../tests/nr-cuup/README.md).
-  - A CU-NRPPA tester, see the corresponding [README.md](../tests/nr-cu-nrppa/README.md).
-  - A UE NAS tester, see the corresponding [README.md](../tests/nr-ue-nas-simulator/README.md).
-- [TESTBenches.md](./TESTBenches.md) lists the CI setup and links to pipelines
-- The CI setup uses a [custom framework](../ci-scripts/README.md) to run
-  end-to-end tests.
+- [Unit tests](./UnitTests.md): unit testing setup
+- Component tests (in `tests/`):
+    - [CU-UP tester](../tests/nr-cuup/README.md)
+    - [CU-NRPPa tester](../tests/nr-cu-nrppa/README.md)
+    - [UE NAS tester](../tests/nr-ue-nas-simulator/README.md)
+- [Test benches](./TESTBenches.md): CI setup and links to pipelines
+- [CI framework](../ci-scripts/README.md): custom framework to run end-to-end tests
 
 ## Developer tools
 
-- [code-style-contrib.md](./code-style-contrib.md): overall working practices, code style, and review process
-- [git-guide.md](./git-guide.md): Git how-tos — commit signing setup, branch
-  management, submodules, recovering from mistakes, reusing conflict
-  resolutions (rerere)
-- [cross-compile.md](./cross-compile.md): how to cross-compile OAI for ARM
-- [clang-format.md](./clang-format.md): how to format the code. See also the
-  next entry for an error detection tool.
-- [formatting](../tools/formatting/README.md) is a clang-format error detection tool
-- [cppcheck](../tools/cppcheck/README.md) for static code analysis
-- [sanitizers.md](./dev_tools/sanitizers.md): how to run with ASan/UBSan/MemSAN/TSan
-- [iwyu](../tools/iwyu/README.md) is a tool to detect `#include` errors
-- [docker-dev-env](../tools/docker-dev-env/README.md) is a ubuntu24 docker development environment
-- [performance monitoring](./dev_tools/performance_monitoring.md): a collection of tools to monitor the computing performance of OAI
-- [doc_best_practices.md](./doc_best_practices.md): overall best practices for writing documentations
+- [Contribution guidelines](./code-style-contrib.md): working practices, code style and review process
+- [Git guide](./git-guide.md): commit signing, branch management, submodules,
+  recovering from mistakes, reusing conflict resolutions (rerere)
+- [Cross-compilation](./cross-compile.md): cross-compiling OAI for ARM
+- [clang-format](./clang-format.md): code formatting
+- [Formatting check](../tools/formatting/README.md): detects clang-format errors
+- [cppcheck](../tools/cppcheck/README.md): static code analysis
+- [Sanitizers](./dev_tools/sanitizers.md): running with ASan, UBSan, MSan and TSan
+- [include-what-you-use (iwyu)](../tools/iwyu/README.md): detects `#include` errors
+- [Docker development environment](../tools/docker-dev-env/README.md): Ubuntu 24 based
+- [Performance monitoring](./dev_tools/performance_monitoring.md): tools to monitor the computing performance of OAI
+- [Documentation best practices](./doc_best_practices.md)
