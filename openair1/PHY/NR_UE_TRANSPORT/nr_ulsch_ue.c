@@ -908,6 +908,18 @@ void nr_ue_ulsch_procedures(PHY_VARS_NR_UE *UE,
   bool uci_present = (pusch_pdu->pusch_uci.harq_ack_bit_length != 0) || (pusch_pdu->pusch_uci.csi_payload.p1_bits != 0);
   if (uci_present) {
     rm_info = calc_rate_match_info_uci(pusch_pdu, &ptrs_info, harq_process_ul_ue, &G[pusch_id]);
+    if (rm_info.E_uci_ACK > MAX_UCI_CODED_BITS
+        || rm_info.E_uci_CSI1 > MAX_UCI_CODED_BITS
+        || rm_info.E_uci_CSI2 > MAX_UCI_CODED_BITS) {
+      LOG_E(PHY,
+            "UCI on PUSCH encoded lengths ACK=%u CSI1=%u CSI2=%u exceed the %u-bit buffer capacity\n",
+            rm_info.E_uci_ACK,
+            rm_info.E_uci_CSI1,
+            rm_info.E_uci_CSI2,
+            MAX_UCI_CODED_BITS);
+      stop_meas_nr_ue_phy(UE, PUSCH_PROC_STATS);
+      return;
+    }
   }
 
   if (nr_ulsch_encoding(UE, ulsch_ue, frame, slot, G, 1, ULSCH_ids) == -1) {
@@ -922,7 +934,7 @@ void nr_ue_ulsch_procedures(PHY_VARS_NR_UE *UE,
   int N_PRB_oh = 0; // higher layer (RRC) parameter xOverhead in PUSCH-ServingCellConfig
 
   // b is the block of bits transmitted on the physical channel after payload coding
-  uint64_t b_ack[16] = {0}; // limit to 1024-bit encoded length
+  uint64_t b_ack[MAX_UCI_CODED_BITS / 64] = {0};
 
   if (pusch_pdu->pusch_uci.harq_ack_bit_length != 0) {
     if (pucch_pdu == NULL) {
@@ -947,8 +959,8 @@ void nr_ue_ulsch_procedures(PHY_VARS_NR_UE *UE,
           G_initial_total_pusch_bits);
   }
 
-  uint64_t b_csi1[16] = {0}; // limit to 1024-bit encoded length
-  uint64_t b_csi2[16] = {0}; // limit to 1024-bit encoded length
+  uint64_t b_csi1[MAX_UCI_CODED_BITS / 64] = {0};
+  uint64_t b_csi2[MAX_UCI_CODED_BITS / 64] = {0};
   if (pusch_pdu->pusch_uci.csi_payload.p1_bits != 0) {
     nr_uci_encoding(pusch_pdu->pusch_uci.csi_payload.part1_payload,
                     pusch_pdu->pusch_uci.csi_payload.p1_bits,
