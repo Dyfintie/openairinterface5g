@@ -19,11 +19,15 @@ More general information is available in the
 
 ## General
 
+- [Project overview](../README.md): introduction, licensing, repository structure and community support
 - [Feature set](./FEATURE_SET.md): supported features
+- [Roadmap](../ROADMAP.md): planned development milestones and priorities
+- [Changelog](../CHANGELOG.md): notable changes delivered in each release
 - [Getting the sources](./GET_SOURCES.md): how to download the sources
 - [Building OAI](./BUILD.md): how to build the sources
 - [Environment variables](./environment-variables.md): environment variables used by OAI
 - [Tuning and security](./tuning_and_security.md): performance and security considerations
+- [Security policy](../SECURITY.md): report vulnerabilities and find supported release information
 - [Supported hardware and operating systems](./Supported_Hardware_Operating_System.md): CPUs, NICs, accelerators and OSes tested in the OAI lab
 - [Key performance indicators](./kpi.md): KPIs of the OAI code base
 
@@ -48,12 +52,15 @@ More general information is available in the
 - [F1-based NR-DC](./nr-dc.md): NR dual connectivity with one CU and FR1/FR2 DUs
 - [Positioning reference signal (PRS)](./RUN_NR_PRS.md): Rel-16 PRS positioning with the gNB and NR-UE
 - [E2 agent](../openair2/E2AP/README.md): deploy the gNB with the E2 agent and the FlexRIC near-RT RIC
+- [E3 agent](../openair2/E3AP/README.md): build, configure and connect real-time dApps integrated in the gNB
 - [RT data recording app](./data_recording.md): record synchronized gNB and UE data sets in SigMF format
 - [Packages](./packages.md): build and install Deb/RPM packages of OAI
 
 ### Functional splits
 
 - [O-RAN 7.2 fronthaul](./ORAN_FHI7.2_Tutorial.md): run the gNB with O-RAN 7.2 radio units
+- [OAI O-RU](./ORAN_FHI7.2_ORU_Tutorial.md): configure, build and run the native OAI O-RU executable
+- [Native 7.2x fronthaul library](../fronthaul/README.md): architecture and implementation of the DPDK-based fronthaul stack
 - [OAI-VNF and OAI-PNF](./nfapi.md): FAPI/nFAPI split, with general remarks on FAPI/nFAPI
 - [NVIDIA Aerial and Foxconn](./Aerial_FAPI_Split_Tutorial.md): OAI L2 with the NVIDIA Aerial L1 over FAPI and a Foxconn RU
 
@@ -61,12 +68,14 @@ More general information is available in the
 
 - [LDPC accelerators (Xilinx T2, Intel ACCs)](./LDPC_OFFLOAD_SETUP.md): LDPC offload through O-RAN AAL/DPDK BBDEV
 - [NR-UE with the LDPC CUDA accelerator](./NR_SA_Tutorial_OAI_nrUE_GPU_offload.md): offload the UE LDPC decoder to a GPU
+- [GPU LDPC decoder](../openair1/PHY/CODING/nrLDPC_coding/nrLDPC_coding_cuda/README.md): test and profile the CUDA/HIP decoder
 - [GPU-accelerated channel simulation](../openair1/SIMULATION/TOOLS/DOC/gpu_acceleration.md): run the channel model on the GPU with CUDA
 
 ### Simulators
 
 - [Physical simulators](./physical-simulators.md): standalone PHY test programs (physims) and how to run them
 - [Channel simulator](../openair1/SIMULATION/TOOLS/DOC/channel_simulation.md): channel models and their configuration
+- [UE positioning in a digital twin](./UE_Positioning_in_DigitalTwin_Tutorial.md): localize a UE using ray-tracing channel emulation
 - [L2 simulator](./L2NFAPI.md): test L2 and above over nFAPI with simulated UEs (4G)
 - [4G L1 simulator](./L1SIM.md): we recommend the RFsimulator instead
 - [4G device-to-device (D2D) emulator](./d2d_emulator_setup.md): unfinished, steps may not be enough
@@ -87,11 +96,13 @@ These documents are unmaintained and no longer valid:
 - [gNB RRC](./RRC/rrc-usage.md): RRC functions, periodic output and configuration options
 - [E1 design](./E1AP/E1-design.md): CU-CP/CU-UP split and how to run it
 - [F1 design](./F1AP/F1-design.md): CU/DU split and implementation status
+- [F1AP message library](./F1AP/F1AP-lib.md): encoding, decoding and testing of F1AP messages
 - [GTP-U design](./GTP/gtp-design.md): user-plane tunnels for S1-U, N3 and F1-U
 - [NR nFAPI](./NR_NFAPI_archi.md): how NR nFAPI works
 - [NRPPa call flow](./NRPPA/NRPPA-call-flow.md): UL-TDOA positioning call flow
 - [UE 5G NAS](./5Gnas.md): 5GS NAS protocol and OAI implementation status
 - [Analog beamforming](./analog_beamforming.md): configuration and scheduler implementation
+- [gNB RACH processing](./rach_processing_in_gNB.md): receive and process random-access channel samples
 - [UL MIMO](./UL_MIMO.md): uplink MIMO and how to test it with the ULSCH simulator
 
 ## Building and running from images
@@ -99,6 +110,8 @@ These documents are unmaintained and no longer valid:
 - [Building images](../docker/README.md): build the OAI Docker/Podman images
 - [5G with the RFsimulator](../ci-scripts/yaml_files/5g_rfsimulator/README.md): deploy a full 5G SA setup with containers
 - [4G with the RFsimulator](../ci-scripts/yaml_files/4g_rfsimulator_fdd_05MHz/README.md): deploy a full 4G setup with containers
+- [O-RAN 7.2 with a VVDN O-RU](../ci-scripts/yaml_files/sa_fhi_7.2_vvdn_gnb/README.md): deploy the gNB and O-RU
+  integration with containers
 - [Physical simulators in OpenShift](../openshift/README.md): build images on an OpenShift cluster
 
 ## Libraries
@@ -112,6 +125,8 @@ These documents are unmaintained and no longer valid:
 - [Logging module](../common/utils/LOG/DOC/log.md): console logging for all OAI components
 - [Shared object loader](../common/utils/DOC/loader.md): load optional libraries (radios, coding, ...) at run time
 - [Thread pool](../common/utils/threadPool/thread-pool.md): used in L1
+- [Actor utility](../common/utils/actor/README.md): single-threaded actors with single-producer/single-consumer input queues
+- [Inter-task interface (ITTI)](../common/utils/ocp_itti/itti.md): typed message queues, timers and socket events between threads
 - [LDPC implementation](../openair1/PHY/CODING/DOC/LDPCImplementation.md): built as a shared library
 - [Time management](./time_management.md): timers in realtime and simulation modes
 
@@ -126,6 +141,7 @@ Radio drivers under `radio/` with their own documentation. The other SDRs
 - [I/Q player](../radio/iqplayer/DOC/iqrecordplayer_usage.md): driver usage
 - [I/Q record and replay](./iqrecordplayer_usage.md): general documentation
 - [O-RAN 7.2 fronthaul driver (fhi_72)](../radio/fhi_72/README.md): developer notes on the xran-based driver
+- [Ethernet fronthaul drivers](../radio/ETHERNET/ethernet.md): eCPRI split 8 and IF4.5 split 7 transport over Ethernet
 - [vrtsim](../radio/vrtsim/README.md): shared memory radio interface
 - [RF emulator](../radio/emulator/README.md): runs without a radio, drops TX and generates noise as RX
 - [ZeroMQ (zmq)](../radio/zmq/README.md): exchange samples between processes over ZeroMQ
@@ -143,11 +159,15 @@ Radio drivers under `radio/` with their own documentation. The other SDRs
     - [CU-UP tester](../tests/nr-cuup/README.md): performance test of the CU-UP over E1 and GTP
     - [CU-NRPPa tester](../tests/nr-cu-nrppa/README.md): test NRPPa and NGAP positioning messages with the AMF
     - [UE NAS tester](../tests/nr-ue-nas-simulator/README.md): test UE NAS procedures with the AMF, without RAN
+    - [XNAP tester](../openair2/XNAP/tests/xn-simulator/README.md): validate Xn setup over real SCTP and ASN.1
+      without a full RAN stack
 - [Test benches](./TESTBenches.md): CI setup and links to pipelines
 - [CI framework](../ci-scripts/README.md): custom framework to run end-to-end tests
 
 ## Developer tools
 
+- [Repository agent guidelines](../AGENTS.md): build, coding and verification conventions for coding agents
+- [Contribution requirements](../CONTRIBUTING.md): licensing, DCO, commit and contribution requirements
 - [Contribution guidelines](./code-style-contrib.md): working practices, code style and review process
 - [Git guide](./git-guide.md): commit signing, branch management, submodules,
   recovering from mistakes, reusing conflict resolutions (rerere)
@@ -158,5 +178,6 @@ Radio drivers under `radio/` with their own documentation. The other SDRs
 - [Sanitizers](./dev_tools/sanitizers.md): running with ASan, UBSan, MSan and TSan
 - [include-what-you-use (iwyu)](../tools/iwyu/README.md): detects `#include` errors
 - [Docker development environment](../tools/docker-dev-env/README.md): Ubuntu 24 based
+- [Plotting tools](../tools/plots/README.md): generate PHY performance plots from simulator results
 - [Performance monitoring](./dev_tools/performance_monitoring.md): tools to monitor the computing performance of OAI
 - [Documentation best practices](./doc_best_practices.md): guidelines for writing documentation
