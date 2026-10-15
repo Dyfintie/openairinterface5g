@@ -320,6 +320,106 @@ void nr_csi_meas_reporting(gNB_MAC_INST *nrmac, nr_cell_sched_t *cell, frame_t f
   }
 }
 
+static NR_BetaOffsets_t *get_beta_offset_config(const NR_UCI_OnPUSCH_t *uci_config)
+{
+  if (!uci_config->betaOffsets)
+    return NULL;
+  AssertFatal(uci_config->betaOffsets->present == NR_UCI_OnPUSCH__betaOffsets_PR_semiStatic,
+              "Only semistatic beta for UCI on PUSCH supported\n");
+  return uci_config->betaOffsets->choice.semiStatic;
+}
+
+static uint8_t configure_csi1_beta_offsets(const NR_UCI_OnPUSCH_t *uci_config, int n_bits)
+{
+  NR_BetaOffsets_t *betaoffsets = get_beta_offset_config(uci_config);
+  if (betaoffsets) {
+    if (n_bits <= 11 && betaoffsets->betaOffsetCSI_Part1_Index1)
+      return *betaoffsets->betaOffsetCSI_Part1_Index1;
+    if (n_bits > 11 && betaoffsets->betaOffsetCSI_Part1_Index2)
+      return *betaoffsets->betaOffsetCSI_Part1_Index2;
+  }
+  // When the field is absent the UE applies the value 13 for CSI
+  return 13;
+}
+
+static uint8_t configure_csi2_beta_offsets(const NR_UCI_OnPUSCH_t *uci_config, int n_bits)
+{
+  NR_BetaOffsets_t *betaoffsets = get_beta_offset_config(uci_config);
+  if (betaoffsets) {
+    if (n_bits <= 11 && betaoffsets->betaOffsetCSI_Part2_Index1)
+      return *betaoffsets->betaOffsetCSI_Part2_Index1;
+    if (n_bits > 11 && betaoffsets->betaOffsetCSI_Part2_Index2)
+      return *betaoffsets->betaOffsetCSI_Part2_Index2;
+  }
+  // When the field is absent the UE applies the value 13 for CSI
+  return 13;
+}
+
+static void compute_csi_on_pusch_bitlen(nfapi_nr_pusch_uci_t *uci_pdu, const nr_csi_report_t *csi_report)
+{
+  // CRI/RSRP or SSBRI/RSRP into CSI part 1 (same for SINR)
+  int idx_len = csi_report->CSI_report_bitlen.cri_ssbri_bitlen * csi_report->CSI_report_bitlen.nb_ssbri_cri;
+  if (csi_report->reportQuantity_type_r16 == NR_CSI_ReportConfig__ext2__reportQuantity_r16_PR_ssb_Index_SINR_r16
+      || csi_report->reportQuantity_type_r16 == NR_CSI_ReportConfig__ext2__reportQuantity_r16_PR_cri_SINR_r16) {
+    int diff_sinr_len = csi_report->CSI_report_bitlen.diff_sinr_bitlen * (csi_report->CSI_report_bitlen.nb_ssbri_cri - 1);
+    uci_pdu->csi_part1_bit_length += CSI_report_bitlen->sinr_bitlen + idx_len + diff_sinr_len;
+  } else if (csi_report->reportQuantity_type == NR_CSI_ReportConfig__reportQuantity_PR_ssb_Index_RSRP
+             || csi_report->reportQuantity_type == NR_CSI_ReportConfig__reportQuantity_PR_cri_RSRP) {
+    int diff_rsrp_len = csi_report->CSI_report_bitlen.diff_rsrp_bitlen * (csi_report->CSI_report_bitlen.nb_ssbri_cri - 1);
+    uci_pdu->csi_part1_bit_length += CSI_report_bitlen->rsrp_bitlen + idx_len + diff_rsrp_len;
+  } else if (csi_report->reportQuantity_type == NR_CSI_ReportConfig__reportQuantity_PR_cri_RI_PMI_CQI) {
+    // CRI + Rank Indicator + Wideband CQI for the first TB
+    uci_pdu->csi_part1_bit_length += csi_report->csi_meas_bitlen.cri_bitlen + csi_report->csi_meas_bitlen.ri_bitlen + 4;
+  } else
+    AssertFatal(false, "reportQuantity type not supported\n");
+}
+
+bool nr_schedule_aperiodic_csi_report(const NR_UE_info_t *UE, nfapi_nr_pusch_pdu_t *pusch_pdu, int trig_id)
+{
+  const NR_UE_UL_BWP_t *current_BWP = &UE->current_UL_BWP;
+  if (!current_BWP->pusch_Config || !current_BWP->pusch_Config->uci_OnPUSCH) {
+    LOG_E(NR_MAC, "Cannot schedule aperiodic CSI report without uci-OnPUSCH configured\n");
+    return false;
+  }
+  const NR_CSI_MeasConfig_t *csi_measconfig = UE->sc_info.csi_MeasConfig;
+  if (!csi_measconfig || !csi_measconfig->csi_ReportConfigToAddModList) {
+    LOG_E(NR_MAC, "Cannot schedule aperiodic CSI report without CSI-ReportConfig\n");
+    return false;
+  }
+  if (!csi_measconfig->aperiodicTriggerStateList
+      || csi_measconfig->aperiodicTriggerStateList->present != NR_SetupRelease_CSI_AperiodicTriggerStateList_PR_setup) {
+    LOG_E(NR_MAC, "Cannot schedule aperiodic CSI report without aperiodicTriggerStateList\n");
+    return false;
+  }
+  int idx = trig_id - 1;
+  if (idx >= csi_measconfig->aperiodicTriggerStateList->choice.setup->list.count) {
+    LOG_E(NR_MAC, "Trigger idx %d exceeds the number of states in the list. Can't schedule aperiodic CSI report.\n", idx);
+    return false;
+  }
+  bool found = false;
+  NR_CSI_AperiodicTriggerState_t *trig_state = csi_measconfig->aperiodicTriggerStateList->choice.setup->list.array[idx];
+  for (int k = 0; k < trig_state->associatedReportConfigInfoList.list.count; k++) {
+    NR_CSI_ReportConfigId_t reportConfigId = trig_state->associatedReportConfigInfoList.list.array[k]->reportConfigId;
+    for (int i = 0; i < csi_measconfig->csi_ReportConfigToAddModList->list.count; i++) {
+      NR_CSI_ReportConfig_t *csirep = csi_measconfig->csi_ReportConfigToAddModList->list.array[i];
+      if (csirep->reportConfigType.present != NR_CSI_ReportConfig__reportConfigType_PR_aperiodic
+          || csirep->reportConfigId != reportConfigId)
+        continue;
+      found = true;
+      compute_csi_on_pusch_bitlen(&pusch_pdu->pusch_uci, &UE->csi_report_template[i]);
+    }
+  }
+  if (!found) {
+    LOG_E(NR_MAC, "Couldn't find any CSI report associated with trigger state %d\n", trig_id);
+    return false;
+  }
+  NR_UCI_OnPUSCH_t *uci_config = current_BWP->pusch_Config->uci_OnPUSCH->choice.setup;
+  pusch_pdu->pusch_uci.alpha_scaling = uci_config->scaling;
+  pusch_pdu->pusch_uci.beta_offset_csi1 = configure_csi1_beta_offsets(uci_config, pusch_pdu->pusch_uci.csi_part1_bit_length);
+  pusch_pdu->pusch_uci.beta_offset_csi2 = configure_csi2_beta_offsets(uci_config, pusch_pdu->pusch_uci.csi_part2_bit_length);
+  return true;
+}
+
 int get_pucch_resourceid(NR_PUCCH_Config_t *pucch_Config, int O_uci, int pucch_resource)
 {
   NR_PUCCH_ResourceId_t *resource_id = NULL;
