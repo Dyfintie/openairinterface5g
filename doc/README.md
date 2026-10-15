@@ -67,7 +67,7 @@ More general information is available in the
 ### Hardware acceleration
 
 - [LDPC accelerators (AMD/Xilinx T2, Intel ACCs, ORS Aurora)](./LDPC_OFFLOAD_SETUP.md): LDPC offload through O-RAN AAL/DPDK BBDEV or XDMA (Aurora)
-- [NR-UE with the LDPC CUDA accelerator](./NR_SA_Tutorial_OAI_nrUE_GPU_offload.md): offload the UE LDPC decoder to a GPU
+- [NR-UE with the GPU LDPC decoder](./NR_SA_Tutorial_OAI_nrUE_GPU_offload.md): offload the UE LDPC decoder to a GPU
 - [GPU LDPC decoder](../openair1/PHY/CODING/nrLDPC_coding/nrLDPC_coding_cuda/README.md): test and profile the CUDA/HIP decoder
 - [GPU-accelerated channel simulation](../openair1/SIMULATION/TOOLS/DOC/gpu_acceleration.md): run the channel model on the GPU with CUDA
 
