@@ -624,7 +624,7 @@ static void nr_pusch_symbol_processing(void *arg)
     if (pusch_vars->ul_valid_re_per_slot[symbol] == 0)
       continue;
     int soffset = (slot % RU_RX_SLOT_DEPTH) * frame_parms->symbols_per_slot * frame_parms->ofdm_symbol_size;
-    int buffer_length = ceil_mod(pusch_vars->ul_valid_re_per_slot[symbol] * NR_NB_SC_PER_RB, 16);
+    int buffer_length = ceil_mod(pusch_vars->ul_valid_re_per_slot[symbol], 16);
     int16_t llrs[rel15_ul->nrOfLayers][ceil_mod(buffer_length * rel15_ul->qam_mod_order, 64)] __attribute__((aligned(32)));
     int16_t *llrss[rel15_ul->nrOfLayers];
     for (int l = 0; l < rel15_ul->nrOfLayers; l++)
@@ -650,7 +650,9 @@ static void nr_pusch_symbol_processing(void *arg)
     for (int u = 0; u < rdata->group_size; u++) {
       // layer de-mapping
       const int ue_layers = rdata->rel15_ul_group[u]->nrOfLayers;
-      int size = ue_layers * buffer_length;
+      const int qam = rdata->rel15_ul_group[u]->qam_mod_order;
+      // layer demapping writes nb_re_pusch * ue_layers * qam LLRs
+      int size = ue_layers * buffer_length * qam;
       int16_t *llr_ptr;
       int16_t llr_buf[size];  // only needed for multi-layer
       const int layer_off = rdata->layer_offsets[u];
@@ -658,7 +660,6 @@ static void nr_pusch_symbol_processing(void *arg)
         llr_ptr = llrss[layer_off];  // zero-copy
       } else {
         llr_ptr = llr_buf;
-        const int qam = rdata->rel15_ul_group[u]->qam_mod_order;
         nr_layer_demapping(ue_layers, qam, nb_re_pusch, &llrss[layer_off], llr_ptr);
       }
       symbol_unscrambling_demux(rdata, u, symbol, size, llr_ptr);
