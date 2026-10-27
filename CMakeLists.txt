@@ -1659,6 +1659,7 @@ set (SIMUSRC
   ${OPENAIR1_DIR}/SIMULATION/RF/adc.c
 )
 add_library(SIMU STATIC ${SIMUSRC} )
+target_link_libraries(SIMU PUBLIC m pthread)
 target_include_directories(SIMU PUBLIC ${OPENAIR1_DIR}/SIMULATION/TOOLS ${OPENAIR1_DIR}/SIMULATION/RF)
 
 option(CHANNEL_SSE "Enable SSE optimizations for channel simulation" OFF)
